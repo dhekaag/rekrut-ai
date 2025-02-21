@@ -16,13 +16,9 @@
       "type": "motoko"
     },
     "rekrut-ai-frontend": {
-      "dependencies": [
-        "rekrut-ai-backend"
-      ],
-      "source": [
-        "src/rekrut-ai-frontend/assets"
-      ],
-      "type": "assets"
+      "entrypoint": "dist/index.html",
+      "type": "assets",
+      "source": ["src/rekrut-ai-frontend/dist"]
     }
   },
   "defaults": {
@@ -31,6 +27,7 @@
       "packtool": ""
     }
   },
+
   "output_env_file": ".env",
   "version": 1
 }

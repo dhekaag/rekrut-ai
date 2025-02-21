@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "prebuild": "echo 'Prebuilding...'",
     "lint": "eslint .",
     "preview": "vite preview"
   },
