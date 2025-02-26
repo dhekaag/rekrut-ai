@@ -1,9 +1,11 @@
 import React from "react";
 import InterviewCards from "@/components/Fragments/InterviewCard";
+import HeroSection from "@/components/HeroSection";
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50">
+      <HeroSection />
       <div className="container mx-auto py-12 px-4">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">
