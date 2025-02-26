@@ -6,6 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Link } from "react-router-dom";
+import { HelpCircle } from "lucide-react";
 
 const FAQAccordion = () => {
   const faqItems = [
@@ -43,18 +44,17 @@ const FAQAccordion = () => {
 
   return (
     <div className="w-full mx-auto bg-gray-50 rounded-xl overflow-hidden">
-      <div className="p-6 md:p-10">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 relative">
+      <div className="p-4 sm:p-6 md:p-10">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 md:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 relative">
             <span className="relative z-10">Frequently Asked Questing</span>
-            <span className="absolute -bottom-4 left-0 w-full h-2 bg-blue-500/20 rounded-full z-0"></span>
           </h2>
-          <p className="text-gray-500 mt-6 sm:mt-0 text-sm">
+          <p className="text-gray-500 mt-2 sm:mt-0 text-sm">
             Temukan jawaban untuk pertanyaan umum
           </p>
         </div>
 
-        <div className="bg-white rounded-xl p-4 md:p-6">
+        <div className="bg-white rounded-xl p-3 sm:p-4 md:p-6">
           <Accordion type="single" collapsible className="w-full">
             {faqItems.map((item, index) => (
               <AccordionItem
@@ -66,13 +66,13 @@ const FAQAccordion = () => {
                     : ""
                 } py-1`}
               >
-                <AccordionTrigger className="text-lg md:text-xl font-medium py-4 hover:no-underline group">
+                <AccordionTrigger className="text-base sm:text-lg md:text-xl font-medium py-3 sm:py-4 hover:no-underline group">
                   <div className="flex items-start text-left hover:text-blue-600 transition-colors">
                     {item.question}
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-6">
-                  <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-400">
+                <AccordionContent className="text-gray-600 pb-4 sm:pb-6">
+                  <div className="bg-gray-50 p-3 sm:p-4 rounded-lg border-l-4 border-blue-400 text-sm sm:text-base">
                     {item.answer}
                   </div>
                 </AccordionContent>
@@ -81,24 +81,9 @@ const FAQAccordion = () => {
           </Accordion>
         </div>
 
-        <div className="mt-8 flex items-center justify-center">
-          <div className="flex items-center space-x-2 text-sm text-gray-500">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-blue-500"
-            >
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="17" x2="12" y2="17"></line>
-            </svg>
+        <div className="mt-6 sm:mt-8 flex items-center justify-center">
+          <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-500">
+            <HelpCircle size={16} className="text-blue-500" />
             <span>
               Ada pertanyaan lain?{" "}
               <Link

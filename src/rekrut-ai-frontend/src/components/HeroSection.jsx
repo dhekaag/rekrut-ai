@@ -9,7 +9,7 @@ export default function HeroSection() {
     <div className="w-full bg-gray-50 bg-opacity-70 py-8">
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-10">
-          <div className="flex flex-col gap-6 max-w-xl">
+          <div className="flex flex-col gap-6 max-w-xl w-full">
             <div className="bg-blue-50 w-fit px-4 py-2 rounded-full border border-[#123CA4]">
               <span className="text-[#123CA4] font-medium">
                 Your Interview Companion
@@ -26,7 +26,7 @@ export default function HeroSection() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4 mt-2">
+            <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-2">
               <StatsCard
                 color="text-figma-primary"
                 bgcolor="bg-figma-primary-light"
@@ -44,22 +44,22 @@ export default function HeroSection() {
               />
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 flex justify-center sm:justify-start">
               <Button
                 style={{ backgroundColor: "#B6C3E3" }}
-                className="text-black px-8 py-6 h-16 text-lg rounded-full font-bold flex items-center gap-2 hover:opacity-90 transition-all"
+                className="text-black px-6 sm:px-8 py-4 sm:py-6 h-14 sm:h-16 text-base sm:text-lg rounded-full font-bold flex items-center gap-2 hover:opacity-90 transition-all"
               >
                 Try It Out Now!
-                <ArrowRight size={24} />
+                <ArrowRight size={20} className="sm:w-6 sm:h-6" />
               </Button>
             </div>
           </div>
 
-          <div className="w-full md:w-auto flex-shrink-0">
+          <div className="w-full md:w-2/5 flex-shrink-0 mt-8 md:mt-0 flex justify-center">
             <img
               src={images.micHeroImages}
               alt="Microphone"
-              className="w-full h-full object-contain"
+              className="w-3/4 md:w-full max-w-md object-contain"
             />
           </div>
         </div>
