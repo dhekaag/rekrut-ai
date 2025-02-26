@@ -47,7 +47,7 @@ export default function HeroSection() {
             <div className="mt-4">
               <Button
                 style={{ backgroundColor: "#B6C3E3" }}
-                className="text-black px-8 py-6 h-16 text-lg rounded-full font-medium flex items-center gap-2 hover:opacity-90 transition-all"
+                className="text-black px-8 py-6 h-16 text-lg rounded-full font-bold flex items-center gap-2 hover:opacity-90 transition-all"
               >
                 Try It Out Now!
                 <ArrowRight size={24} />
