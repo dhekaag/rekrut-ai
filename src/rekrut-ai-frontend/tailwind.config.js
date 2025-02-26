@@ -19,6 +19,18 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        figma: {
+          secondary: {
+            DEFAULT: "#123CA4",
+            light: "#E7ECF6",
+            lightActive: "#B6C3E3",
+          },
+          primary: {
+            DEFAULT: "#27809D",
+            light: "#E9F2F5",
+            lightActive: "#BCD8E1",
+          },
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
