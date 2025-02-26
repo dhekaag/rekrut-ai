@@ -1,5 +1,6 @@
 import React from "react";
 import InterviewCards from "@/components/Fragments/InterviewCard";
+import FAQAccordion from "@/components/FAQAccordion";
 
 const Home = () => {
   return (
@@ -13,8 +14,10 @@ const Home = () => {
             We got you covered for any tech-related job interview!
           </p>
         </div>
-
         <InterviewCards />
+        <div className="mt-20 mb-12">
+          <FAQAccordion />
+        </div>
       </div>
     </div>
   );
