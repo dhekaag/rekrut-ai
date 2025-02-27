@@ -1,12 +1,14 @@
 import React from "react";
 import InterviewCards from "@/components/Fragments/InterviewCard";
 import HeroSection from "@/components/HeroSection";
+import HowItWorks from "@/components/HowItWorks";
 import FAQAccordion from "@/components/FAQAccordion";
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <HeroSection />
+      <HowItWorks />
       <div className="container mx-auto py-12 px-4">
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4">

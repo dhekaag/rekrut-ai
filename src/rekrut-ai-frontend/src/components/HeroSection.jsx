@@ -10,7 +10,7 @@ export default function HeroSection() {
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-10">
           {/* Left content column */}
-          <div className="flex flex-col gap-6 max-w-xl w-full">
+          <div className="flex flex-col gap-6 max-w-xl w-full lg:w-1/2">
             <div className="bg-blue-50 w-fit px-4 py-2 rounded-full border border-[#123CA4]">
               <span className="text-[#123CA4] font-medium">
                 Your Interview Companion
@@ -54,7 +54,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right content column - Microphone container */}
-          <div className="md:flex md:justify-center md:items-center md:w-1/3">
+          <div className="md:flex md:justify-center md:items-center md:w-1/3 lg:w-1/2">
             <div className="relative flex h-36 w-36 md:h-48 md:w-48">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-figma-primary opacity-75"></span>
               <div className="relative flex justify-center items-center rounded-full h-full w-full bg-figma-primary">
