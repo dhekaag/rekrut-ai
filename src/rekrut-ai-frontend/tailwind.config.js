@@ -83,10 +83,17 @@ export default {
             height: "0",
           },
         },
+        ping: {
+          "75%, 100%": {
+            transform: "scale(1.5)",
+            opacity: "0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        ping: "ping 2s linear infinite",
       },
     },
   },

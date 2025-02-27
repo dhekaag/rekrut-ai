@@ -9,6 +9,7 @@ export default function HeroSection() {
     <div className="w-full bg-gray-50 bg-opacity-70 py-8">
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-10">
+          {/* Left content column */}
           <div className="flex flex-col gap-6 max-w-xl w-full">
             <div className="bg-blue-50 w-fit px-4 py-2 rounded-full border border-[#123CA4]">
               <span className="text-[#123CA4] font-medium">
@@ -45,22 +46,25 @@ export default function HeroSection() {
             </div>
 
             <div className="mt-4 flex justify-center sm:justify-start">
-              <Button
-                style={{ backgroundColor: "#B6C3E3" }}
-                className="text-black px-6 sm:px-8 py-4 sm:py-6 h-14 sm:h-16 text-base sm:text-lg rounded-full font-bold flex items-center gap-2 hover:opacity-90 transition-all"
-              >
+              <Button className="bg-figma-primary text-white px-6 sm:px-8 py-4 sm:py-6 h-14 sm:h-16 text-base sm:text-lg rounded-full font-bold flex items-center gap-2 hover:opacity-90 transition-all">
                 Try It Out Now!
                 <ArrowRight size={20} className="sm:w-6 sm:h-6" />
               </Button>
             </div>
           </div>
 
-          <div className="w-full md:w-2/5 flex-shrink-0 mt-8 md:mt-0 flex justify-center">
-            <img
-              src={images.micHeroImages}
-              alt="Microphone"
-              className="w-3/4 md:w-full max-w-md object-contain"
-            />
+          {/* Right content column - Microphone container */}
+          <div className="md:flex md:justify-center md:items-center md:w-1/3">
+            <div className="relative flex h-36 w-36 md:h-48 md:w-48">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-figma-primary opacity-75"></span>
+              <div className="relative flex justify-center items-center rounded-full h-full w-full bg-figma-primary">
+                <img
+                  src={images.micHeroImages}
+                  alt="Microphone"
+                  className="w-20 md:w-28 object-contain"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
