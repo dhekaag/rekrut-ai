@@ -1,0 +1,4 @@
+service : {
+  greeting: (text) -> (text) query;
+  interview_options: (text, text) -> (text) query;
+}
