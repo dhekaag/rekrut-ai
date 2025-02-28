@@ -3,6 +3,7 @@ import InterviewCards from "@/components/Fragments/InterviewCard";
 import HeroSection from "@/components/HeroSection";
 import HowItWorks from "@/components/HowItWorks";
 import FAQAccordion from "@/components/FAQAccordion";
+import Footer from "@/components/Footer";
 
 const Home = () => {
   return (
@@ -23,6 +24,7 @@ const Home = () => {
           <FAQAccordion />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
