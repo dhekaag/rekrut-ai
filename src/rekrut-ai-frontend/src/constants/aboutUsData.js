@@ -1,4 +1,4 @@
-const aboutUsData = [
+export const aboutUsData = [
   {
     title: "Real-time AI-Generated Questions",
     description:
