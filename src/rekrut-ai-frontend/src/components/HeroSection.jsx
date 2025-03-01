@@ -3,6 +3,7 @@ import { images } from "@/constants/images";
 import StatsCard from "./Fragments/StatsCard";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import BadgeButton from "./Fragments/BadgeButton";
 
 export default function HeroSection() {
   return (
@@ -11,11 +12,7 @@ export default function HeroSection() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-10">
           {/* Left content column */}
           <div className="flex flex-col gap-6 max-w-xl w-full lg:w-1/2">
-            <div className="bg-blue-50 w-fit px-4 py-2 rounded-full border border-[#123CA4]">
-              <span className="text-[#123CA4] font-medium">
-                Your Interview Companion
-              </span>
-            </div>
+            <BadgeButton />
 
             <div>
               <h1 className="text-4xl md:text-5xl font-bold my-5">RekrutAI</h1>
