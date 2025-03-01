@@ -58,17 +58,7 @@ const Navbar = () => {
                   isActive("/") ? "text-primary font-semibold" : "text-gray-700"
                 }`}
               >
-                Dashboard
-              </Link>
-              <Link
-                to="/about"
-                className={`font-medium transition-colors hover:text-primary ${
-                  isActive("/about")
-                    ? "text-primary font-semibold"
-                    : "text-gray-700"
-                }`}
-              >
-                About
+                Beranda
               </Link>
               <Link
                 to="/services"
@@ -103,23 +93,21 @@ const Navbar = () => {
           </button>
         </div>
 
-        {isOpen && (
-          <div className="md:hidden absolute top-full left-4 right-4 mt-2 rounded-lg bg-white shadow-lg p-5 border border-gray-100 flex flex-col space-y-4">
+        <div
+          className={`md:hidden absolute top-full left-4 right-4 mt-2 rounded-lg bg-white shadow-lg border border-gray-100 overflow-hidden transition-all duration-300 ease-in-out ${
+            isOpen
+              ? "max-h-96 opacity-100 p-5 transform translate-y-0"
+              : "max-h-0 opacity-0 p-0 transform -translate-y-4"
+          }`}
+        >
+          <div className="flex flex-col space-y-4">
             <Link
               to="/"
               className={`p-2 rounded-md transition-colors hover:bg-gray-50 ${
                 isActive("/") ? "bg-gray-50 font-semibold" : ""
               }`}
             >
-              Dashboard
-            </Link>
-            <Link
-              to="/about"
-              className={`p-2 rounded-md transition-colors hover:bg-gray-50 ${
-                isActive("/about") ? "bg-gray-50 font-semibold" : ""
-              }`}
-            >
-              About
+              Beranda
             </Link>
             <Link
               to="/services"
@@ -142,7 +130,7 @@ const Navbar = () => {
               </Button>
             </div>
           </div>
-        )}
+        </div>
       </header>
     </>
   );
