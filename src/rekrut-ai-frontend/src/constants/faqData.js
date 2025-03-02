@@ -1,32 +1,32 @@
 export const faqData = [
   {
-    question: "Apa itu RekrutAI?",
+    question: "What is RekrutAI?",
     answer:
-      "RekrutAI adalah platform interview berbasis AI yang membantu kandidat berlatih untuk wawancara kerja. Kami menyediakan simulasi wawancara yang realistis dengan analisis dan umpan balik real-time untuk membantu Anda mempersiapkan diri menghadapi wawancara kerja teknologi.",
+      "RekrutAI is an AI-based interview platform that helps candidates practice for job interviews. We provide realistic interview simulations with real-time analysis and feedback to help you prepare for technology job interviews.",
   },
   {
-    question: "Bagaimana cara kerja RekrutAI?",
+    question: "How does RekrutAI work?",
     answer:
-      "RekrutAI bekerja dengan menggunakan algoritma AI canggih untuk mensimulasikan wawancara. Anda akan menjawab pertanyaan seperti dalam wawancara nyata, kemudian sistem akan menganalisis jawaban Anda dan memberikan umpan balik yang konstruktif untuk perbaikan.",
+      "RekrutAI works by using advanced AI algorithms to simulate interviews. You'll answer questions as you would in a real interview, then the system will analyze your answers and provide constructive feedback for improvement.",
   },
   {
-    question: "Apakah RekrutAI gratis untuk digunakan?",
+    question: "Is RekrutAI free to use?",
     answer:
-      "RekrutAI menawarkan paket gratis dengan fitur terbatas dan paket premium dengan fitur lengkap. Paket gratis memungkinkan Anda mengakses beberapa template wawancara dasar, sementara paket premium membuka semua fitur termasuk analisis mendalam dan sesi wawancara tak terbatas.",
+      "RekrutAI offers a free package with limited features and premium packages with full functionality. The free package allows you to access some basic interview templates, while the premium package unlocks all features including in-depth analysis and unlimited interview sessions.",
   },
   {
-    question: "Industri atau posisi apa saja yang didukung RekrutAI?",
+    question: "What industries or positions does RekrutAI support?",
     answer:
-      "RekrutAI mendukung berbagai posisi di industri teknologi, termasuk pengembang software, data scientist, UX designer, product manager, dan banyak lagi. Kami terus menambahkan template wawancara baru untuk berbagai posisi dan tingkat pengalaman.",
+      "RekrutAI supports various positions in the technology industry, including software developers, data scientists, UX designers, product managers, and many more. We continuously add new interview templates for different positions and experience levels.",
   },
   {
-    question: "Bagaimana akurasi feedback dari RekrutAI?",
+    question: "How accurate is the feedback from RekrutAI?",
     answer:
-      "Feedback RekrutAI dirancang berdasarkan input dari profesional HR dan technical interviewer berpengalaman. Meskipun tidak ada sistem yang sempurna, umpan balik kami sangat relevan dengan standar industri saat ini dan terus ditingkatkan melalui pembelajaran mesin.",
+      "RekrutAI's feedback is designed based on input from experienced HR professionals and technical interviewers. While no system is perfect, our feedback is highly relevant to current industry standards and continuously improved through machine learning.",
   },
   {
-    question: "Apakah data saya aman dengan RekrutAI?",
+    question: "Is my data safe with RekrutAI?",
     answer:
-      "Keamanan data adalah prioritas utama kami. Semua interaksi Anda dienkripsi dan kami tidak pernah membagikan informasi pribadi Anda dengan pihak ketiga tanpa izin. Anda juga dapat menghapus data Anda kapan saja melalui pengaturan akun.",
+      "Data security is our top priority. All your interactions are encrypted and we never share your personal information with third parties without permission. You can also delete your data at any time through your account settings.",
   },
 ];

@@ -19,14 +19,14 @@ const FAQAccordion = () => {
               Frequently asked questions
             </h2>
             <p className="text-gray-600 mb-8">
-              Temukan jawaban untuk pertanyaan umum tentang RekrutAI
+              Find answers to common questions about RekrutAI
             </p>
             <Link
               to="/"
               className="inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors group"
             >
               <CircleHelp className="mr-2 h-5 w-5" />
-              Masih punya pertanyaan?
+              Still have questions?
               <ChevronRight className="ml-1 h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>

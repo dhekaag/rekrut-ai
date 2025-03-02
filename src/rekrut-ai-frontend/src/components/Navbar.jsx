@@ -58,7 +58,7 @@ const Navbar = () => {
                   isActive("/") ? "text-primary font-semibold" : "text-gray-700"
                 }`}
               >
-                Beranda
+                Home
               </Link>
               <Link
                 to="/services"
@@ -74,14 +74,14 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Button
+            {/* <Button
               variant="outline"
               className="font-bold text-white bg-[#27809D] hover:bg-[#1F6A80] hover:text-white"
             >
               Sign Up
-            </Button>
+            </Button> */}
             <Button className="bg-[#123CA4] hover:bg-blue-800 text-white font-bold">
-              Join Us
+              <Link to={"/services"}>Join Us</Link>
             </Button>
           </div>
 
@@ -107,7 +107,7 @@ const Navbar = () => {
                 isActive("/") ? "bg-gray-50 font-semibold" : ""
               }`}
             >
-              Beranda
+              Home
             </Link>
             <Link
               to="/services"
@@ -119,14 +119,14 @@ const Navbar = () => {
             </Link>
             <hr className="border-gray-200" />
             <div className="flex flex-col space-y-3 pt-2">
-              <Button
+              {/* <Button
                 variant="outline"
                 className="font-bold text-white bg-[#27809D] hover:bg-[#1F6A80] hover:text-white"
               >
                 Sign Up
-              </Button>
+              </Button> */}
               <Button className="bg-[#123CA4] hover:bg-blue-800 text-white font-bold">
-                Join Us
+                <Link to={"/services"}>Join Us</Link>
               </Button>
             </div>
           </div>
