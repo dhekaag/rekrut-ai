@@ -1,7 +1,9 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const JobRoleCard = ({ role, colorClass }) => {
+  const navigate = useNavigate();
   const colorName = colorClass.split("-")[1];
 
   const buttonColorMap = {
@@ -16,6 +18,10 @@ const JobRoleCard = ({ role, colorClass }) => {
 
   const buttonColor =
     buttonColorMap[colorName] || "bg-blue-600 hover:bg-blue-700 text-white";
+
+  const handleStartInterview = () => {
+    navigate("/services/interview-process");
+  };
 
   return (
     <Card
@@ -43,7 +49,10 @@ const JobRoleCard = ({ role, colorClass }) => {
           </div>
 
           <div className="mt-4 text-center">
-            <Button className={`w-full rounded-md font-medium ${buttonColor}`}>
+            <Button
+              className={`w-full rounded-md font-medium ${buttonColor}`}
+              onClick={handleStartInterview}
+            >
               Take practice interview
             </Button>
           </div>
