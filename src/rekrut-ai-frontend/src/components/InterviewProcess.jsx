@@ -1,34 +1,59 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Mic, Speaker, MicOff, Volume2, Volume1, VolumeX } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { Mic, Speaker, MicOff, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import {
-  INTERVIEW_QUESTIONS,
-  TIMER_INITIAL_VALUE,
-} from "@/constants/dummyInterview";
+  selectCurrentQuestion,
+  selectAnswers,
+  selectTimeRemaining,
+  selectShowCongratulations,
+  selectShowResults,
+  selectProcessingResults,
+  saveAnswer,
+  nextQuestion,
+  previousQuestion,
+  completeInterview,
+  updateTimeRemaining,
+} from "@/features/slices/interviewSlice";
+import { INTERVIEW_QUESTIONS } from "@/constants/dummyInterview";
 import speechUtils from "@/utils/speechUtils";
+import CongratulationsScreen from "./Congratulation";
+import ProcessingModal from "./ProcessingModal";
+import InterviewResults from "./InterviewResults";
 
 const InterviewProcess = () => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(TIMER_INITIAL_VALUE);
+  const dispatch = useDispatch();
+  const currentQuestionIndex = useSelector(selectCurrentQuestion);
+  const answers = useSelector(selectAnswers);
+  const timeRemaining = useSelector(selectTimeRemaining);
+  const showCongratulations = useSelector(selectShowCongratulations);
+  const showResults = useSelector(selectShowResults);
+  const processingResults = useSelector(selectProcessingResults);
+
   const [isRecording, setIsRecording] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [transcript, setTranscript] = useState("");
-  const [answers, setAnswers] = useState({});
 
   const speechInstance = useRef(null);
   const recognitionInstance = useRef(null);
 
   useEffect(() => {
+    const questionId = INTERVIEW_QUESTIONS[currentQuestionIndex].id;
+    const savedAnswer = answers[questionId] || "";
+    setTranscript(savedAnswer);
+  }, [currentQuestionIndex, answers]);
+
+  useEffect(() => {
     let timer;
     if (timeRemaining > 0) {
       timer = setInterval(() => {
-        setTimeRemaining((prev) => prev - 1);
+        dispatch(updateTimeRemaining(timeRemaining - 1));
       }, 1000);
     }
     return () => clearInterval(timer);
-  }, [timeRemaining]);
+  }, [timeRemaining, dispatch]);
 
   useEffect(() => {
     return () => {
@@ -49,36 +74,41 @@ const InterviewProcess = () => {
       .padStart(2, "0")}`;
   };
 
-  const progress = ((currentQuestion + 1) / INTERVIEW_QUESTIONS.length) * 100;
+  const progress =
+    ((currentQuestionIndex + 1) / INTERVIEW_QUESTIONS.length) * 100;
 
   const handleNext = () => {
-    if (currentQuestion < INTERVIEW_QUESTIONS.length - 1) {
-      if (transcript) {
-        setAnswers({
-          ...answers,
-          [INTERVIEW_QUESTIONS[currentQuestion].id]: transcript,
-        });
-      }
+    const currentQuestion = INTERVIEW_QUESTIONS[currentQuestionIndex];
 
-      setCurrentQuestion(currentQuestion + 1);
-      setTranscript("");
+    if (transcript) {
+      dispatch(
+        saveAnswer({
+          questionId: currentQuestion.id,
+          answer: transcript,
+        })
+      );
+    }
+
+    if (currentQuestionIndex < INTERVIEW_QUESTIONS.length - 1) {
+      dispatch(nextQuestion());
+    } else {
+      dispatch(completeInterview());
     }
   };
 
   const handlePrevious = () => {
-    if (currentQuestion > 0) {
-      if (transcript) {
-        setAnswers({
-          ...answers,
-          [INTERVIEW_QUESTIONS[currentQuestion].id]: transcript,
-        });
-      }
+    const currentQuestion = INTERVIEW_QUESTIONS[currentQuestionIndex];
 
-      setCurrentQuestion(currentQuestion - 1);
-      const prevAnswer =
-        answers[INTERVIEW_QUESTIONS[currentQuestion - 1].id] || "";
-      setTranscript(prevAnswer);
+    if (transcript) {
+      dispatch(
+        saveAnswer({
+          questionId: currentQuestion.id,
+          answer: transcript,
+        })
+      );
     }
+
+    dispatch(previousQuestion());
   };
 
   const toggleRecording = () => {
@@ -123,7 +153,7 @@ const InterviewProcess = () => {
       }
 
       speechInstance.current = speechUtils.speak(
-        INTERVIEW_QUESTIONS[currentQuestion].text,
+        INTERVIEW_QUESTIONS[currentQuestionIndex].text,
         () => {
           setIsPlaying(false);
           speechInstance.current = null;
@@ -133,8 +163,18 @@ const InterviewProcess = () => {
     }
   };
 
+  if (showCongratulations) {
+    return <CongratulationsScreen />;
+  }
+
+  if (showResults) {
+    return <InterviewResults />;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
+      <ProcessingModal isOpen={processingResults} />
+
       <Card className="w-full max-w-3xl border-none bg-transparent shadow-none">
         <CardContent className="p-6">
           <div className="text-center mb-8">
@@ -144,7 +184,8 @@ const InterviewProcess = () => {
             <Progress value={progress} className="h-2 mb-2" />
             <div className="flex justify-between text-sm text-gray-500">
               <span>
-                Question {currentQuestion + 1} of {INTERVIEW_QUESTIONS.length}
+                Question {currentQuestionIndex + 1} of{" "}
+                {INTERVIEW_QUESTIONS.length}
               </span>
               <span>{formatTime(timeRemaining)}</span>
             </div>
@@ -174,7 +215,7 @@ const InterviewProcess = () => {
             <div className="md:w-3/4">
               <Card className="h-40 mb-4 border-none bg-indigo-50/70 flex items-center justify-center p-4">
                 <p className="text-lg text-gray-700">
-                  {INTERVIEW_QUESTIONS[currentQuestion].text}
+                  {INTERVIEW_QUESTIONS[currentQuestionIndex].text}
                 </p>
               </Card>
 
@@ -198,17 +239,18 @@ const InterviewProcess = () => {
                 <Button
                   variant="outline"
                   onClick={handlePrevious}
-                  disabled={currentQuestion === 0}
+                  disabled={currentQuestionIndex === 0}
                   className="bg-indigo-50 hover:bg-indigo-100 border-indigo-200"
                 >
                   Previous
                 </Button>
                 <Button
                   onClick={handleNext}
-                  disabled={currentQuestion === INTERVIEW_QUESTIONS.length - 1}
                   className="bg-blue-600 hover:bg-blue-700"
                 >
-                  Next
+                  {currentQuestionIndex === INTERVIEW_QUESTIONS.length - 1
+                    ? "Submit"
+                    : "Next"}
                 </Button>
               </div>
             </div>

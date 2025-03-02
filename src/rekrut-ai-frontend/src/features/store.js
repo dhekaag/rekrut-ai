@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./slices/counterSlice";
+import interviewReducer from "./slices/interviewSlice";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    interview: interviewReducer,
   },
 });

@@ -4,7 +4,7 @@ import About from "../pages/About";
 import Root from "../pages/Root";
 import NotFound from "../pages/NotFound";
 import Service from "../pages/Service";
-import InterviewPage from "@/pages/Interview";
+import InterviewPage from "../pages/Interview";
 
 export const router = createBrowserRouter([
   {
