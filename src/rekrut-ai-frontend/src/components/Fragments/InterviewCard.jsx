@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useInterviewCategories } from "@/hooks/useInterviewCategories";
 import { CardSkeleton } from "./CardSkeleton";
+import { Link } from "react-router-dom";
 
 const InterviewCards = () => {
   const { data, isLoading } = useInterviewCategories();
@@ -92,7 +93,7 @@ const InterviewCards = () => {
           className="bg-gradient-to-r from-[#27809D] to-[#124F62] text-white py-7 px-8 rounded-full text-2xl font-bold hover:opacity-90 hover:scale-105 transition-all"
           size="lg"
         >
-          Start Practicing
+          <Link to="/services">Start Practicing</Link>
           <ArrowRight className="ml-4 h-6 w-6" />
         </Button>
       </div>
