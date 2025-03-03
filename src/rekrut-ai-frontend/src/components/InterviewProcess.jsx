@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Mic, Speaker, MicOff, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,13 +11,15 @@ import {
   selectShowCongratulations,
   selectShowResults,
   selectProcessingResults,
+  selectQuestions,
   saveAnswer,
   nextQuestion,
   previousQuestion,
   completeInterview,
   updateTimeRemaining,
+  loadFromCookies,
 } from "@/features/slices/interviewSlice";
-import { INTERVIEW_QUESTIONS } from "@/constants/dummyInterview";
+import { useStartInterview } from "@/hooks/useInterviewCategories";
 import speechUtils from "@/utils/speechUtils";
 import CongratulationsScreen from "./Congratulation";
 import ProcessingModal from "./ProcessingModal";
@@ -31,20 +33,42 @@ const InterviewProcess = () => {
   const showCongratulations = useSelector(selectShowCongratulations);
   const showResults = useSelector(selectShowResults);
   const processingResults = useSelector(selectProcessingResults);
+  const questions = useSelector(selectQuestions);
+
+  const { mutate: startInterview, isLoading: isStartingInterview } =
+    useStartInterview();
 
   const [isRecording, setIsRecording] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [transcript, setTranscript] = useState("");
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const speechInstance = useRef(null);
   const recognitionInstance = useRef(null);
 
+  // Load from cookies and/or initialize interview
   useEffect(() => {
-    const questionId = INTERVIEW_QUESTIONS[currentQuestionIndex].id;
-    const savedAnswer = answers[questionId] || "";
-    setTranscript(savedAnswer);
-  }, [currentQuestionIndex, answers]);
+    dispatch(loadFromCookies());
+  }, [dispatch]);
 
+  // Separate effect for starting interview to prevent infinite loop
+  useEffect(() => {
+    if (Object.keys(questions).length === 0 && !isInitialized) {
+      startInterview();
+      setIsInitialized(true);
+    }
+  }, [isInitialized]);
+
+  // Update transcript when changing questions or if answers exist
+  useEffect(() => {
+    if (Object.keys(questions).length > 0) {
+      const questionNumber = currentQuestionIndex + 1;
+      const savedAnswer = answers[questionNumber] || "";
+      setTranscript(savedAnswer);
+    }
+  }, [currentQuestionIndex, answers, questions]);
+
+  // Timer effect
   useEffect(() => {
     let timer;
     if (timeRemaining > 0) {
@@ -55,6 +79,7 @@ const InterviewProcess = () => {
     return () => clearInterval(timer);
   }, [timeRemaining, dispatch]);
 
+  // Cleanup speech instances
   useEffect(() => {
     return () => {
       if (speechInstance.current) {
@@ -74,22 +99,32 @@ const InterviewProcess = () => {
       .padStart(2, "0")}`;
   };
 
+  // Get the current question text
+  const getCurrentQuestionText = () => {
+    if (Object.keys(questions).length > 0) {
+      return questions[currentQuestionIndex + 1];
+    }
+    return "Loading question...";
+  };
+
   const progress =
-    ((currentQuestionIndex + 1) / INTERVIEW_QUESTIONS.length) * 100;
+    Object.keys(questions).length > 0
+      ? ((currentQuestionIndex + 1) / Object.keys(questions).length) * 100
+      : 0;
 
   const handleNext = () => {
-    const currentQuestion = INTERVIEW_QUESTIONS[currentQuestionIndex];
+    const questionNumber = currentQuestionIndex + 1;
 
     if (transcript) {
       dispatch(
         saveAnswer({
-          questionId: currentQuestion.id,
+          questionId: questionNumber,
           answer: transcript,
         })
       );
     }
 
-    if (currentQuestionIndex < INTERVIEW_QUESTIONS.length - 1) {
+    if (currentQuestionIndex < Object.keys(questions).length - 1) {
       dispatch(nextQuestion());
     } else {
       dispatch(completeInterview());
@@ -97,12 +132,12 @@ const InterviewProcess = () => {
   };
 
   const handlePrevious = () => {
-    const currentQuestion = INTERVIEW_QUESTIONS[currentQuestionIndex];
+    const questionNumber = currentQuestionIndex + 1;
 
     if (transcript) {
       dispatch(
         saveAnswer({
-          questionId: currentQuestion.id,
+          questionId: questionNumber,
           answer: transcript,
         })
       );
@@ -152,13 +187,12 @@ const InterviewProcess = () => {
         setIsRecording(false);
       }
 
-      speechInstance.current = speechUtils.speak(
-        INTERVIEW_QUESTIONS[currentQuestionIndex].text,
-        () => {
-          setIsPlaying(false);
-          speechInstance.current = null;
-        }
-      );
+      const questionText = getCurrentQuestionText();
+
+      speechInstance.current = speechUtils.speak(questionText, () => {
+        setIsPlaying(false);
+        speechInstance.current = null;
+      });
       setIsPlaying(true);
     }
   };
@@ -169,6 +203,23 @@ const InterviewProcess = () => {
 
   if (showResults) {
     return <InterviewResults />;
+  }
+
+  if (isStartingInterview || Object.keys(questions).length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">
+            Preparing Your Interview...
+          </h2>
+          <div className="animate-pulse flex space-x-4 justify-center">
+            <div className="rounded-full bg-blue-400 h-3 w-3"></div>
+            <div className="rounded-full bg-blue-400 h-3 w-3"></div>
+            <div className="rounded-full bg-blue-400 h-3 w-3"></div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -185,7 +236,7 @@ const InterviewProcess = () => {
             <div className="flex justify-between text-sm text-gray-500">
               <span>
                 Question {currentQuestionIndex + 1} of{" "}
-                {INTERVIEW_QUESTIONS.length}
+                {Object.keys(questions).length}
               </span>
               <span>{formatTime(timeRemaining)}</span>
             </div>
@@ -215,7 +266,7 @@ const InterviewProcess = () => {
             <div className="md:w-3/4">
               <Card className="h-40 mb-4 border-none bg-indigo-50/70 flex items-center justify-center p-4">
                 <p className="text-lg text-gray-700">
-                  {INTERVIEW_QUESTIONS[currentQuestionIndex].text}
+                  {getCurrentQuestionText()}
                 </p>
               </Card>
 
@@ -248,7 +299,7 @@ const InterviewProcess = () => {
                   onClick={handleNext}
                   className="bg-blue-600 hover:bg-blue-700"
                 >
-                  {currentQuestionIndex === INTERVIEW_QUESTIONS.length - 1
+                  {currentQuestionIndex === Object.keys(questions).length - 1
                     ? "Submit"
                     : "Next"}
                 </Button>

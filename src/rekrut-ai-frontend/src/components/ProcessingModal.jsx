@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { finishProcessingResults } from "@/features/slices/interviewSlice";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +10,6 @@ import { Progress } from "@/components/ui/progress";
 import { Loader2 } from "lucide-react";
 
 const ProcessingModal = ({ isOpen }) => {
-  const dispatch = useDispatch();
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -21,9 +18,6 @@ const ProcessingModal = ({ isOpen }) => {
         setProgress((prevProgress) => {
           if (prevProgress >= 100) {
             clearInterval(interval);
-            setTimeout(() => {
-              dispatch(finishProcessingResults());
-            }, 500);
             return 100;
           }
           return prevProgress + 100 / 15; // Increase to complete in 15 seconds
@@ -33,8 +27,10 @@ const ProcessingModal = ({ isOpen }) => {
       return () => {
         clearInterval(interval);
       };
+    } else {
+      setProgress(0);
     }
-  }, [isOpen, dispatch]);
+  }, [isOpen]);
 
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
