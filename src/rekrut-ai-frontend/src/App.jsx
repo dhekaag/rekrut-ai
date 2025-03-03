@@ -21,7 +21,10 @@ const AppContent = () => {
       Cookies.remove("selected_job_topics");
       dispatch(resetInterview());
 
-      if (window.location.pathname !== "/") {
+      if (
+        window.location.pathname !== "/" &&
+        window.location.pathname !== "/services"
+      ) {
         window.location.href = "/";
       }
     }

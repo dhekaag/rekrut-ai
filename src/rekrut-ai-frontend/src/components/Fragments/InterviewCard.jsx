@@ -36,7 +36,8 @@ const InterviewCards = () => {
     );
   }
 
-  const categories = data?.data || [];
+  // Fix: Changed this to directly use data since it's already the correct structure from useCategories hook
+  const categories = data || [];
   const displayCategories = categories.slice(0, 3);
 
   return (
@@ -93,10 +94,8 @@ const InterviewCards = () => {
           className="bg-gradient-to-r from-[#27809D] to-[#124F62] text-white py-7 px-8 rounded-full text-2xl font-bold hover:opacity-90 hover:scale-105 transition-all"
           size="lg"
         >
-          <Link to="/services" className="flex items-center">
-            Start Practicing
-            <ArrowRight className="ml-4 h-6 w-6" />
-          </Link>
+          <Link to="/services">Start Practicing</Link>
+          <ArrowRight className="ml-4 h-6 w-6" />
         </Button>
       </div>
     </div>
