@@ -41,12 +41,13 @@ const speechUtils = {
     };
   },
 
-  startSpeechRecognition: (onResult, onEnd) => {
+  startSpeechRecognition: (onResult, onEnd, onVolumeChange) => {
     if (
       typeof window === "undefined" ||
-      (!window.SpeechRecognition && !window.webkitSpeechRecognition)
+      (!window.SpeechRecognition && !window.webkitSpeechRecognition) ||
+      !window.AudioContext
     ) {
-      console.error("Speech recognition not supported");
+      console.error("Speech recognition or AudioContext not supported");
 
       setTimeout(() => {
         onResult(
@@ -70,6 +71,55 @@ const speechUtils = {
     recognition.interimResults = true;
     recognition.lang = "en-US";
 
+    let audioContext;
+    let analyser;
+    let microphone;
+    let javascriptNode;
+
+    try {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioContext.createAnalyser();
+      analyser.minDecibels = -90;
+      analyser.maxDecibels = -10;
+      analyser.smoothingTimeConstant = 0.85;
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices
+          .getUserMedia({ audio: true })
+          .then((stream) => {
+            microphone = audioContext.createMediaStreamSource(stream);
+            microphone.connect(analyser);
+
+            javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+            analyser.connect(javascriptNode);
+            javascriptNode.connect(audioContext.destination);
+
+            javascriptNode.onaudioprocess = () => {
+              const array = new Uint8Array(analyser.frequencyBinCount);
+              analyser.getByteFrequencyData(array);
+
+              let values = 0;
+              const length = array.length;
+
+              for (let i = 0; i < length; i++) {
+                values += array[i];
+              }
+
+              const average = values / length;
+
+              if (onVolumeChange) {
+                onVolumeChange(average);
+              }
+            };
+          })
+          .catch((err) => {
+            console.error("Error accessing microphone:", err);
+          });
+      }
+    } catch (e) {
+      console.error("AudioContext error:", e);
+    }
+
     recognition.onresult = (event) => {
       const transcript = Array.from(event.results)
         .map((result) => result[0])
@@ -80,6 +130,16 @@ const speechUtils = {
     };
 
     recognition.onend = () => {
+      if (javascriptNode) {
+        javascriptNode.disconnect();
+      }
+      if (microphone) {
+        microphone.disconnect();
+      }
+      if (audioContext && audioContext.state !== "closed") {
+        audioContext.close();
+      }
+
       if (onEnd) onEnd();
     };
 
@@ -87,6 +147,16 @@ const speechUtils = {
 
     return {
       stop: () => {
+        if (javascriptNode) {
+          javascriptNode.disconnect();
+        }
+        if (microphone) {
+          microphone.disconnect();
+        }
+        if (audioContext && audioContext.state !== "closed") {
+          audioContext.close();
+        }
+
         recognition.stop();
       },
     };

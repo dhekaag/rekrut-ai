@@ -42,16 +42,16 @@ const InterviewProcess = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
+  const [audioLevel, setAudioLevel] = useState(0);
 
   const speechInstance = useRef(null);
   const recognitionInstance = useRef(null);
+  const audioLevelsRef = useRef([0, 0, 0, 0, 0, 0]);
 
-  // Load from cookies and/or initialize interview
   useEffect(() => {
     dispatch(loadFromCookies());
   }, [dispatch]);
 
-  // Separate effect for starting interview to prevent infinite loop
   useEffect(() => {
     if (Object.keys(questions).length === 0 && !isInitialized) {
       startInterview();
@@ -59,7 +59,6 @@ const InterviewProcess = () => {
     }
   }, [isInitialized]);
 
-  // Update transcript when changing questions or if answers exist
   useEffect(() => {
     if (Object.keys(questions).length > 0) {
       const questionNumber = currentQuestionIndex + 1;
@@ -68,7 +67,6 @@ const InterviewProcess = () => {
     }
   }, [currentQuestionIndex, answers, questions]);
 
-  // Timer effect
   useEffect(() => {
     let timer;
     if (timeRemaining > 0) {
@@ -79,7 +77,6 @@ const InterviewProcess = () => {
     return () => clearInterval(timer);
   }, [timeRemaining, dispatch]);
 
-  // Cleanup speech instances
   useEffect(() => {
     return () => {
       if (speechInstance.current) {
@@ -91,6 +88,14 @@ const InterviewProcess = () => {
     };
   }, []);
 
+  const handleVolumeChange = (volume) => {
+    setAudioLevel(volume);
+    const newLevels = [...audioLevelsRef.current];
+    newLevels.shift();
+    newLevels.push(volume);
+    audioLevelsRef.current = newLevels;
+  };
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -99,7 +104,6 @@ const InterviewProcess = () => {
       .padStart(2, "0")}`;
   };
 
-  // Get the current question text
   const getCurrentQuestionText = () => {
     if (Object.keys(questions).length > 0) {
       return questions[currentQuestionIndex + 1];
@@ -153,6 +157,8 @@ const InterviewProcess = () => {
         recognitionInstance.current = null;
       }
       setIsRecording(false);
+      setAudioLevel(0);
+      audioLevelsRef.current = [0, 0, 0, 0, 0, 0];
     } else {
       if (speechInstance.current) {
         speechInstance.current.stop();
@@ -167,7 +173,10 @@ const InterviewProcess = () => {
         () => {
           setIsRecording(false);
           recognitionInstance.current = null;
-        }
+          setAudioLevel(0);
+          audioLevelsRef.current = [0, 0, 0, 0, 0, 0];
+        },
+        handleVolumeChange
       );
       setIsRecording(true);
     }
@@ -185,6 +194,8 @@ const InterviewProcess = () => {
         recognitionInstance.current.stop();
         recognitionInstance.current = null;
         setIsRecording(false);
+        setAudioLevel(0);
+        audioLevelsRef.current = [0, 0, 0, 0, 0, 0];
       }
 
       const questionText = getCurrentQuestionText();
@@ -244,7 +255,7 @@ const InterviewProcess = () => {
 
           <div className="flex flex-col md:flex-row gap-6 mb-8">
             <div className="md:w-1/4 flex flex-col items-center">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-600 to-blue-700 flex items-center justify-center mb-4">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-600 to-blue-700 flex items-center justify-center mb-4 relative">
                 <div className="w-20 h-20 rounded-full bg-indigo-50 flex items-center justify-center">
                   {isPlaying ? (
                     <Volume2 size={36} className="text-cyan-700" />
@@ -252,6 +263,21 @@ const InterviewProcess = () => {
                     <Speaker size={36} className="text-cyan-700" />
                   )}
                 </div>
+                {isPlaying && (
+                  <div className="absolute inset-0">
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="absolute w-[90%] h-[90%] rounded-full border-4 border-blue-400/30 animate-ping"></div>
+                      <div
+                        className="absolute w-[70%] h-[70%] rounded-full border-4 border-blue-500/40 animate-ping"
+                        style={{ animationDelay: "0.2s" }}
+                      ></div>
+                      <div
+                        className="absolute w-[50%] h-[50%] rounded-full border-4 border-blue-600/50 animate-ping"
+                        style={{ animationDelay: "0.4s" }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
               </div>
               <Button
                 variant="outline"
@@ -270,7 +296,6 @@ const InterviewProcess = () => {
                 </p>
               </Card>
 
-              {/* Speech-to-text result area */}
               <Card className="mb-4 border-none bg-blue-50/70 p-4 min-h-[100px] max-h-[200px] overflow-y-auto">
                 <h3 className="text-sm font-medium text-gray-500 mb-2">
                   Your Answer:
@@ -313,11 +338,28 @@ const InterviewProcess = () => {
                 isRecording
                   ? "bg-red-500 hover:bg-red-600"
                   : "bg-blue-600 hover:bg-blue-700"
-              }`}
+              } relative`}
               onClick={toggleRecording}
             >
               {isRecording ? <Mic size={20} /> : <MicOff size={20} />}
               <span>{isRecording ? "Recording..." : "Tap to Answer"}</span>
+
+              {isRecording && (
+                <div className="absolute -inset-1 overflow-hidden rounded-full">
+                  <div className="flex justify-center items-center gap-1 absolute bottom-0 left-0 right-0">
+                    {[...audioLevelsRef.current].map((level, i) => (
+                      <div
+                        key={i}
+                        className="w-1 bg-white/80 rounded-t-full"
+                        style={{
+                          height: `${Math.min(Math.max(level / 5, 4), 20)}px`,
+                          transition: "height 150ms ease",
+                        }}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </Button>
           </div>
         </CardContent>

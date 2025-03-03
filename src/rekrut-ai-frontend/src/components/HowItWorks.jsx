@@ -9,7 +9,7 @@ const HowItWorks = () => {
           <h2 className="text-3xl sm:text-4xl font-bold">How Does It Work?</h2>
         </div>
 
-        <div className="max-w-5xl mx-auto bg-white rounded-xl overflow-hidden">
+        <div className="max-w-5xl mx-auto rounded-xl overflow-hidden">
           <div className="p-6">
             <div className="flex justify-center">
               <img

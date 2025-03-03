@@ -16,7 +16,7 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-indigo-50">
       <HeroSection />
       <HowItWorks />
       <div className="container mx-auto py-12 px-4">
