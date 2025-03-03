@@ -43,8 +43,8 @@ const Service = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-slate-100 py-12 sm:py-16 px-6 sm:px-8 md:px-10">
-        <div className="max-w-4xl mx-auto">
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-slate-100 py-12 sm:py-16 px-4 sm:px-8 md:px-10">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Practice your interview with AI
@@ -109,19 +109,19 @@ const Service = () => {
             </Button>
           </div>
 
-          <div className="mb-12 px-4 sm:px-6">
+          <div className="mb-12 px-2 sm:px-0">
             <h2 className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8">
               Choose Your Desired Job Role
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
               {isLoading ? (
                 Array(6)
                   .fill(0)
                   .map((_, index) => (
                     <Skeleton
                       key={index}
-                      className="h-40 rounded-lg flex-shrink-0"
+                      className="h-48 rounded-lg flex-shrink-0"
                     />
                   ))
               ) : isError ? (

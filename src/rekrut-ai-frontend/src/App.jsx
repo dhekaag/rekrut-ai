@@ -22,13 +22,6 @@ const AppContent = () => {
       Cookies.remove("interview_answers");
       Cookies.remove("selected_job_topics");
       dispatch(resetInterview());
-
-      if (
-        window.location.pathname !== "/" &&
-        window.location.pathname !== "/services"
-      ) {
-        window.location.href = "/";
-      }
     }
 
     const handleBeforeUnload = (event) => {

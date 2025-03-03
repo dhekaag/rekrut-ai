@@ -23,10 +23,8 @@ const JobRoleCard = ({ role, colorClass }) => {
     buttonColorMap[colorName] || "bg-blue-600 hover:bg-blue-700 text-white";
 
   const handleStartInterview = () => {
-    // Extract topics from the role object
     const topicNames = role.topics.map((topic) => topic.topic);
 
-    // Set selected job and topics in Redux
     dispatch(
       setSelectedJobAndTopics({
         job: role.job,
@@ -34,43 +32,42 @@ const JobRoleCard = ({ role, colorClass }) => {
       })
     );
 
-    // Navigate to interview process page
     navigate("/services/interview-process");
   };
 
   return (
     <Card
-      className={`rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer ${colorClass} border-2`}
+      className={`rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer ${colorClass} border-2 flex flex-col h-full`}
     >
-      <div className="p-5">
-        <div className="flex flex-col h-full">
-          <div className="mb-2">
-            <h3 className="text-xl font-bold text-gray-800 mb-2">{role.job}</h3>
-            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-              {role.description}
-            </p>
-          </div>
+      <div className="p-5 flex flex-col h-full">
+        <div className="mb-3">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">
+            {role.job}
+          </h3>
+          <p className="text-sm text-gray-600 mb-3 line-clamp-2 sm:line-clamp-3">
+            {role.description}
+          </p>
+        </div>
 
-          <div className="flex flex-wrap gap-2 mt-auto">
-            {role.topics &&
-              role.topics.slice(0, 3).map((topic) => (
-                <span
-                  key={topic.id}
-                  className="inline-block bg-white px-3 py-1 rounded-full text-xs font-medium text-gray-700 border border-gray-200"
-                >
-                  {topic.topic}
-                </span>
-              ))}
-          </div>
+        <div className="flex flex-wrap gap-2 mt-auto mb-4">
+          {role.topics &&
+            role.topics.slice(0, 3).map((topic) => (
+              <span
+                key={topic.id}
+                className="inline-block bg-white px-2 py-1 rounded-full text-xs font-medium text-gray-700 border border-gray-200"
+              >
+                {topic.topic}
+              </span>
+            ))}
+        </div>
 
-          <div className="mt-4 text-center">
-            <Button
-              className={`w-full rounded-md font-medium ${buttonColor}`}
-              onClick={handleStartInterview}
-            >
-              Take practice interview
-            </Button>
-          </div>
+        <div className="mt-auto">
+          <Button
+            className={`w-full rounded-md font-medium ${buttonColor} py-2 sm:py-3`}
+            onClick={handleStartInterview}
+          >
+            Take practice interview
+          </Button>
         </div>
       </div>
     </Card>
