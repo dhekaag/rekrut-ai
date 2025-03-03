@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { resetInterview } from "@/features/slices/interviewSlice";
 import InterviewCards from "@/components/Fragments/InterviewCard";
 import HeroSection from "@/components/HeroSection";
 import HowItWorks from "@/components/HowItWorks";
@@ -7,6 +9,12 @@ import Footer from "@/components/Footer";
 import AboutUs from "@/components/AboutUs";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(resetInterview());
+  }, [dispatch]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <HeroSection />

@@ -12,10 +12,12 @@ const AppContent = () => {
 
   useEffect(() => {
     const hasSessionStorage = sessionStorage.getItem("app_initialized");
+    const isInterviewProcess =
+      window.location.pathname === "/services/interview-process";
 
     if (!hasSessionStorage) {
       sessionStorage.setItem("app_initialized", "true");
-    } else {
+    } else if (!isInterviewProcess) {
       Cookies.remove("interview_session");
       Cookies.remove("interview_answers");
       Cookies.remove("selected_job_topics");
@@ -29,11 +31,13 @@ const AppContent = () => {
       }
     }
 
-    const handleBeforeUnload = () => {
-      Cookies.remove("interview_session");
-      Cookies.remove("interview_answers");
-      Cookies.remove("selected_job_topics");
-      dispatch(resetInterview());
+    const handleBeforeUnload = (event) => {
+      if (window.location.pathname !== "/services/interview-process") {
+        Cookies.remove("interview_session");
+        Cookies.remove("interview_answers");
+        Cookies.remove("selected_job_topics");
+        dispatch(resetInterview());
+      }
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
