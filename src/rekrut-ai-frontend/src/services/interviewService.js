@@ -1,13 +1,18 @@
 import api from "../api/axios";
 
-export const fetchInterviewCategories = async () => {
-  const response = await api.get("/interviews/categories");
-  return response.data;
-};
-
-export const interviewService = {
+const interviewService = {
   getInterviewCategories: async () => {
     const response = await api.get("/interviews/categories");
+    return response.data.data; // Return data array directly
+  },
+
+  startInterview: async (jobData) => {
+    const response = await api.post("/interviews/start", jobData);
+    return response.data;
+  },
+
+  submitInterviewResults: async (resultData) => {
+    const response = await api.post("/interviews/result", resultData);
     return response.data;
   },
 };

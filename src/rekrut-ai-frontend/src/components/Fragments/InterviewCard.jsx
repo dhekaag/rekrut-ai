@@ -2,12 +2,12 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { useInterviewCategories } from "@/hooks/useInterviewCategories";
+import useCategories from "@/hooks/useInterviewCategories";
 import { CardSkeleton } from "./CardSkeleton";
 import { Link } from "react-router-dom";
 
 const InterviewCards = () => {
-  const { data, isLoading } = useInterviewCategories();
+  const { data, isLoading } = useCategories();
 
   const defaultImages = {
     "Information Technology":
@@ -36,7 +36,8 @@ const InterviewCards = () => {
     );
   }
 
-  const categories = data?.data || [];
+  // Fix: Changed this to directly use data since it's already the correct structure from useCategories hook
+  const categories = data || [];
   const displayCategories = categories.slice(0, 3);
 
   return (

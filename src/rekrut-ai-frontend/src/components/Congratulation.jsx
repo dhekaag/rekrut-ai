@@ -1,20 +1,25 @@
-import React from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronRight, Home } from "lucide-react";
+import { ChevronRight, Home, AlertTriangle } from "lucide-react";
 import {
   startProcessingResults,
   resetInterview,
 } from "@/features/slices/interviewSlice";
+import { useSubmitResults } from "@/hooks/useInterviewCategories";
 
 const CongratulationsScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { mutate: submitResults, isLoading, isError } = useSubmitResults();
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
   const handleViewResults = () => {
+    setHasAttemptedSubmit(true);
     dispatch(startProcessingResults());
+    submitResults();
   };
 
   const handleQuit = () => {
@@ -54,6 +59,15 @@ const CongratulationsScreen = () => {
               mastering your confidence and performance in real job interviews.
             </p>
 
+            {isError && hasAttemptedSubmit && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md flex items-center gap-2 text-red-700">
+                <AlertTriangle size={18} />
+                <span className="text-sm">
+                  There was an error processing your results. Please try again.
+                </span>
+              </div>
+            )}
+
             <div className="flex justify-between">
               <Button
                 variant="outline"
@@ -66,9 +80,16 @@ const CongratulationsScreen = () => {
               <Button
                 className="bg-blue-600 hover:bg-blue-700 text-white flex items-center"
                 onClick={handleViewResults}
+                disabled={isLoading}
               >
-                <span>View Interview Results</span>
-                <ChevronRight className="h-4 w-4 ml-1" />
+                {isLoading ? (
+                  <span>Processing...</span>
+                ) : (
+                  <>
+                    <span>View Interview Results</span>
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </>
+                )}
               </Button>
             </div>
           </div>

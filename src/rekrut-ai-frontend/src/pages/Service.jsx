@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import JobCategoryCard from "@/components/JobCategoryCard";
 import JobRoleCard from "@/components/JobRoleCard";
 import FooterServices from "@/components/FooterService";
-import useCategories from "@/hooks/useCategoriesAndRole";
+import useCategories from "@/hooks/useInterviewCategories";
 
 const Service = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);

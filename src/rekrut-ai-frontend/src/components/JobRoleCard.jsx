@@ -1,9 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSelectedJobAndTopics } from "@/features/slices/interviewSlice";
 
 const JobRoleCard = ({ role, colorClass }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const colorName = colorClass.split("-")[1];
 
   const buttonColorMap = {
@@ -20,6 +23,18 @@ const JobRoleCard = ({ role, colorClass }) => {
     buttonColorMap[colorName] || "bg-blue-600 hover:bg-blue-700 text-white";
 
   const handleStartInterview = () => {
+    // Extract topics from the role object
+    const topicNames = role.topics.map((topic) => topic.topic);
+
+    // Set selected job and topics in Redux
+    dispatch(
+      setSelectedJobAndTopics({
+        job: role.job,
+        topics: topicNames,
+      })
+    );
+
+    // Navigate to interview process page
     navigate("/services/interview-process");
   };
 
