@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 
 const Root = () => {
   const location = useLocation();
-  const navbarPaths = ["/", "/about", "/services"];
+  const navbarPaths = ["/", "/services"];
   const showNavbar = navbarPaths.includes(location.pathname);
 
   return (
