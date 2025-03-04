@@ -1,26 +1,46 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { motion } from "framer-motion";
 
 export const CardSkeleton = ({ size = "medium" }) => {
-  const getHeight = () => {
+  const getSize = () => {
     switch (size) {
       case "small":
-        return "h-64";
+        return "h-48 sm:h-56 md:h-64";
+      case "medium":
+        return "h-56 sm:h-72 md:h-80";
       case "large":
-        return "h-96";
+        return "h-64 sm:h-80 md:h-96";
       default:
-        return "h-80";
+        return "h-56 sm:h-72 md:h-80";
     }
   };
 
+  const skeletonVariants = {
+    initial: { opacity: 0 },
+    animate: {
+      opacity: [0.3, 0.6, 0.3],
+      transition: {
+        repeat: Infinity,
+        duration: 1.5,
+        ease: "easeInOut",
+      },
+    },
+  };
+
   return (
-    <Card className={`w-full ${getHeight()} overflow-hidden`}>
-      <Skeleton className="w-full h-3/4" />
-      <CardContent className="p-4">
-        <Skeleton className="h-4 w-2/3 mb-2" />
-        <Skeleton className="h-3 w-1/2" />
-      </CardContent>
-    </Card>
+    <motion.div
+      className={`w-full ${getSize()} rounded-xl bg-gray-200 overflow-hidden relative`}
+      variants={skeletonVariants}
+      initial="initial"
+      animate="animate"
+    >
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent"
+        animate={{
+          x: ["-100%", "100%"],
+          transition: { repeat: Infinity, duration: 1.5, ease: "linear" },
+        }}
+      />
+    </motion.div>
   );
 };

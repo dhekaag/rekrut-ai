@@ -1,4 +1,4 @@
-export function StatsCard({ bgcolor, color, border }) {
+export const StatsCard = ({ border, bgcolor, color }) => {
   return (
     <div
       className={`border ${border} ${bgcolor} ${color} w-40 h-32 p-3 rounded-lg text-center flex flex-col items-center justify-center transition-all hover:shadow-md`}
@@ -9,4 +9,4 @@ export function StatsCard({ bgcolor, color, border }) {
       </p>
     </div>
   );
-}
+};
