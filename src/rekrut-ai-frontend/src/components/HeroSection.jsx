@@ -3,11 +3,11 @@ import { images } from "@/constants/images";
 import { StatsCard } from "./Fragments/StatsCard";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import BadgeButton from "./Fragments/BadgeButton";
+import { BadgeButton } from "./Fragments/BadgeButton";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-export default function HeroSection() {
+export const HeroSection = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -235,4 +235,4 @@ export default function HeroSection() {
       </div>
     </motion.div>
   );
-}
+};

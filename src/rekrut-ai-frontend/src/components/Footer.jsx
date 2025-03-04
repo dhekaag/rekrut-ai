@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function Footer() {
+export const Footer = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const bubbleVariants = {
@@ -170,4 +170,4 @@ export default function Footer() {
       ></motion.div>
     </motion.div>
   );
-}
+};

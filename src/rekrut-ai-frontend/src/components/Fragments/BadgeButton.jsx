@@ -1,4 +1,4 @@
-export default function BadgeButton() {
+export const BadgeButton = () => {
   return (
     <div className="bg-blue-50 w-fit px-4 py-2 rounded-full border border-[#123CA4]">
       <span className="text-[#123CA4] font-medium">
@@ -6,4 +6,4 @@ export default function BadgeButton() {
       </span>
     </div>
   );
-}
+};

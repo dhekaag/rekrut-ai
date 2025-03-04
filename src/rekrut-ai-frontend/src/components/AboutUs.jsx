@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { Brain, Library, ClipboardList, MessageSquareMore } from "lucide-react";
-import BadgeButton from "./Fragments/BadgeButton";
+import { BadgeButton } from "./Fragments/BadgeButton";
 import { aboutUsData } from "@/constants/aboutUsData";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion, useAnimation, useInView } from "framer-motion";
 
-export default function AboutUs() {
+export const AboutUs = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const controls = useAnimation();
@@ -160,4 +160,4 @@ export default function AboutUs() {
       </div>
     </motion.div>
   );
-}
+};

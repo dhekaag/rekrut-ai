@@ -43,7 +43,7 @@ const AppContent = () => {
   return <RouterProvider router={router} />;
 };
 
-function App() {
+const App = () => {
   return (
     <QueryProvider>
       <ReduxProvider>
@@ -51,6 +51,6 @@ function App() {
       </ReduxProvider>
     </QueryProvider>
   );
-}
+};
 
 export default App;

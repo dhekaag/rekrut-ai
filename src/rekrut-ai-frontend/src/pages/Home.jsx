@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resetInterview } from "@/features/slices/interviewSlice";
 import InterviewCards from "@/components/Fragments/InterviewCard";
-import HeroSection from "@/components/HeroSection";
+import { HeroSection } from "@/components/HeroSection";
 import HowItWorks from "@/components/HowItWorks";
 import FAQAccordion from "@/components/FAQAccordion";
-import Footer from "@/components/Footer";
-import AboutUs from "@/components/AboutUs";
+import { Footer } from "@/components/Footer";
+import { AboutUs } from "@/components/AboutUs";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Home = () => {
